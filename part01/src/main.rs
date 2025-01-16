@@ -34,6 +34,16 @@ fn vec_min(v: Vec<i32>) -> NumOrNothing {
     min
 }
 
+fn vec_sum(v: &Vec<i32>) -> i32 {
+
+    let mut acc = 0;
+
+    for e in v {
+        acc += e;
+    }
+    acc
+}
+
 impl NumOrNothing {
     fn print(self) {
         match self {
@@ -43,12 +53,19 @@ impl NumOrNothing {
     }
 }
 
+fn vec_print(v: &Vec<i32>) {
+    println!("Vector: {:?}", &v);
+}
+
 fn read_vec() -> Vec<i32> {
     vec![18,5,7,1,9,27]
 }
 
 pub fn main() {
     let vec = read_vec();
-    let min = vec_min(vec);
+    let min = vec_min(vec.clone());
+    let sum = vec_sum(&vec);
     min.print();
+    println!("Vector sum: {}", sum);
+    vec_print(&vec);
 }
