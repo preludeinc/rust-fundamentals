@@ -1,6 +1,10 @@
 /*
-* Adding generic types to functions. 
+* Replaces read_vec by a function which accepts user input.
 */
+use std::io::prelude::*;
+use std::io;
+
+
 pub enum SomethingOrNothing<T> {
     Something(T),
     Nothing
@@ -46,13 +50,29 @@ impl NumOrNothing {
     fn print(self) {
         match self {
             Nothing => println!("The number is <nothing>"),
-            Something(n) => println!("The number is: {}", n),
+            Something(n) => println!("The min number is: {}", n),
         };
     }
 }
 
 fn read_vec() -> Vec<i32> {
-    vec![18,5,7,3,9,27]
+    // a new empty vector
+    let mut vec: Vec<i32> = Vec::<i32>::new();
+    let stdin = io::stdin();
+    println!("Please enter a list of numbers, one per line. End with Ctrl-D (Linux) or Ctrl-Z (windows).");
+
+    for line in stdin.lock().lines() {
+        let line = line.unwrap();
+        match line.trim().parse::<i32>() {
+            Ok(num) => {
+                vec.push(num)
+            },
+            Err(_) => {
+                println!("Please enter a number")
+            },
+        }
+    }
+    vec
 }
 
 pub fn main() {
