@@ -37,7 +37,6 @@ fn vec_min(v: Vec<i32>) -> NumOrNothing {
 fn vec_sum(v: &Vec<i32>) -> i32 {
 
     let mut acc = 0;
-
     for e in v {
         acc += e;
     }
