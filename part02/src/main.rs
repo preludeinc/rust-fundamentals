@@ -11,7 +11,7 @@ pub trait Minimum : Copy {
 }
 
 pub use self::SomethingOrNothing::*;
-type NumOrNothing = SomethingOrNothing<i32>;
+type NumOrNothing = SomethingOrNothing<f32>;
 
 impl<T> SomethingOrNothing<T> {
     fn new(o: Option<T>) -> Self {
@@ -36,7 +36,7 @@ pub fn vec_min<T: Minimum>(v: Vec<T>) -> SomethingOrNothing<T> {
     min
 }
 
-impl Minimum for i32 {
+impl Minimum for f32 {
     fn min(self, b: Self) -> Self {
         if self < b { self } else { b }
     }
@@ -46,13 +46,13 @@ impl NumOrNothing {
     fn print(self) {
         match self {
             Nothing => println!("The number is <nothing>"),
-            Something(n) => println!("The min number is: {}", n),
+            Something(n) => println!("The min number is: {:.32}", n),
         };
     }
 }
 
-fn read_vec() -> Vec<i32> {
-    vec![18,5,7,3,9,27]
+fn read_vec() -> Vec<f32> {
+    vec![18.0,5.0,7.0,3.0,9.0,27.0]
 }
 
 pub fn main() {
