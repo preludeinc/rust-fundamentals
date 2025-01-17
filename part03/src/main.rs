@@ -3,8 +3,6 @@
 */
 use std::io::prelude::*;
 use std::io;
-
-
 pub enum SomethingOrNothing<T> {
     Something(T),
     Nothing
@@ -49,8 +47,8 @@ impl Minimum for i32 {
 impl NumOrNothing {
     fn print(self) {
         match self {
-            Nothing => println!("The number is <nothing>"),
-            Something(n) => println!("The min number is: {}", n),
+            Nothing => println!("\nThe number is <nothing>"),
+            Something(n) => println!("\nThe min number is: {}", n),
         };
     }
 }
@@ -77,6 +75,27 @@ fn read_vec() -> Vec<i32> {
 
 pub fn main() {
     let vec = read_vec();
-    let min = vec_min(vec);
+    let min = vec_min(vec.clone());
+    let min_clone = vec_min(vec);
     min.print();
+    min_clone.print2();
+}
+
+pub trait Print {
+    fn println_t<T: std::fmt::Display>(self, v: T);
+}
+
+impl Print for i32 {
+    fn println_t<I32: std::fmt::Display>(self, v: I32) {
+        println!("{}", v);
+    }
+}
+
+impl<T: Print + std::fmt::Display>SomethingOrNothing<T> {
+    fn print2(self) {
+        match self {
+            Nothing => println!("The number is: <nothing>"),
+            Something(t) => println!("The min number is: {}", t),
+        };
+    }
 }
