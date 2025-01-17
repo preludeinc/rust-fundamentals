@@ -13,7 +13,7 @@ pub trait Minimum : Copy {
 }
 
 pub use self::SomethingOrNothing::*;
-type NumOrNothing = SomethingOrNothing<i32>;
+type NumOrNothing<T> = SomethingOrNothing<T>;
 
 impl<T> SomethingOrNothing<T> {
     fn new(o: Option<T>) -> Self {
@@ -44,24 +44,30 @@ impl Minimum for i32 {
     }
 }
 
-impl NumOrNothing {
+impl Minimum for f32 {
+    fn min(self, b: Self) -> Self {
+        if self < b { self } else { b }
+    }
+}
+
+impl<T: std::fmt::Display> NumOrNothing<T> {
     fn print(self) {
         match self {
             Nothing => println!("\nThe number is <nothing>"),
-            Something(n) => println!("\nThe min number is: {}", n),
+            Something(n) => println!("\nThe min number is: {:.2}", n),
         };
     }
 }
 
-fn read_vec() -> Vec<i32> {
+fn read_vec<T: std::str::FromStr>() -> Vec<T> {
     // a new empty vector
-    let mut vec: Vec<i32> = Vec::<i32>::new();
+    let mut vec: Vec<T> = Vec::new();
     let stdin = io::stdin();
     println!("Please enter a list of numbers, one per line. End with Ctrl-D (Linux) or Ctrl-Z (windows).");
 
     for line in stdin.lock().lines() {
         let line = line.unwrap();
-        match line.trim().parse::<i32>() {
+        match line.trim().parse::<T>() {
             Ok(num) => {
                 vec.push(num)
             },
@@ -74,7 +80,8 @@ fn read_vec() -> Vec<i32> {
 }
 
 pub fn main() {
-    let vec = read_vec();
+    // let vec = read_vec();
+    let vec: Vec::<f32> = read_vec::<f32>();
     let min = vec_min(vec.clone());
     let min_clone = vec_min(vec);
     min.print();
@@ -87,7 +94,13 @@ pub trait Print {
 
 impl Print for i32 {
     fn println_t<I32: std::fmt::Display>(self, v: I32) {
-        println!("{}", v);
+        println!("{:.2}", v);
+    }
+}
+
+impl Print for f32 {
+    fn println_t<F32: std::fmt::Display>(self, v: F32) {
+        println!("{:.2}", v);
     }
 }
 
@@ -95,7 +108,7 @@ impl<T: Print + std::fmt::Display>SomethingOrNothing<T> {
     fn print2(self) {
         match self {
             Nothing => println!("The number is: <nothing>"),
-            Something(t) => println!("The min number is: {}", t),
+            Something(t) => println!("The min number is: {:.2}", t),
         };
     }
 }
