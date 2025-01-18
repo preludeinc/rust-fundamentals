@@ -2,6 +2,8 @@
 * Building a data structure for computation with big numbers.
 *
 */
+mod part02;
+
 #[derive(Debug)]
 pub struct BigInt {
     pub data: Vec<u64>
@@ -24,28 +26,36 @@ impl BigInt {
         }
     }
 
-    pub fn from_vec(mut v: Vec<u64>) -> Self {
+    pub fn from_vec(v: Vec<u64>) -> Self {
         let val = v.iter().fold(0, |acc, elem| acc * 10 + elem);
+
         let mut mod_vec = vec![val];
-        while let Some(last) = mod_vec.last() {
-            if *last == 0 {
-                mod_vec.pop();
-            } else {
-                break;
-            }
+        while mod_vec.last() == Some(&0) {
+            mod_vec.pop();
         }
+        
         BigInt { data: mod_vec }
     }
 }
 
-fn clone_demo() {
-    let v = vec![0,1 << 16];
-    let b1 = BigInt::from_vec((&v).clone());
-    let b2 = BigInt::from_vec(v);
-    println!("{:?}", b1);
-    println!("{:?}", b2);
+impl Clone for BigInt {
+    fn clone(&self) -> Self {
+        BigInt { data: self.data.clone() }
+    }
+}
+
+use part02::{SomethingOrNothing, Something, Nothing};
+impl<T: Clone> Clone for SomethingOrNothing<T> {
+    fn clone(&self) -> Self {
+        match *self {
+            Nothing => Nothing,
+            Something(ref v) => Something(v.clone()),
+        }
+    }
 }
 
 pub fn main() {
-    clone_demo();
+    let v = vec![0,1 << 16];
+    let b1 = BigInt::from_vec((&v).clone());
+    println!("{:?}", b1);
 }
