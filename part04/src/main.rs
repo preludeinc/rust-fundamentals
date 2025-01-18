@@ -1,7 +1,6 @@
 /*
 * Some examples of shared references.
 */
-
 pub fn vec_min<T: std::cmp::Ord>(v: &Vec<i32>) -> Option<i32> {
     use std::cmp;
 
