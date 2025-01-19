@@ -1,1 +1,6 @@
-Working through an applied Rust tutorial, in preparation for making some projects using it. The tutorial is available at the following [link](https://www.ralfj.de/projects/rust-101/main.html).
+Working through a series of Rusts tutorials, in preparation for making some projects using it. 
+
+- Tutorial links:
+- [rust-101](https://www.ralfj.de/projects/rust-101/main.html)
+- [rust tcp server](https://www.youtube.com/watch?v=JiuouCJQzSQ)
+
