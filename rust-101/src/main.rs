@@ -48,11 +48,12 @@ fn head<T>(v: &Vec<T>) -> Option<&T> {
     }
 }
 
-fn rust_foo(mut v: Vec<i32>) -> i32 {
-    let first: Option<&i32> = head(&v);
-    /* v.push(42); */
-    *first.unwrap()
-}
+// used for a demonstration in this section
+// fn rust_foo(mut v: Vec<i32>) -> i32 {
+//     let first: Option<&i32> = head(&v);
+//     /* v.push(42); */
+//     *first.unwrap()
+// }
 
 fn main() {
     let v1 = BigInt::new(6 << 16);

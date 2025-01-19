@@ -3,5 +3,5 @@
 version = 4
 
 [[package]]
-name = "part04"
+name = "rust-101"
 version = "0.1.0"

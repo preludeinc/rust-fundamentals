@@ -7,6 +7,8 @@ pub enum SomethingOrNothing<T> {
     Nothing
 }
 
+pub use self::SomethingOrNothing::*;
+
 #[derive(Debug)]
 pub struct BigInt {
     pub data: Vec<u64>
@@ -50,8 +52,8 @@ impl Clone for BigInt {
 impl<T: Clone> Clone for SomethingOrNothing<T> {
     fn clone(&self) -> Self {
         match *self {
-            SomethingOrNothing::Nothing => SomethingOrNothing::Nothing,
-            SomethingOrNothing::Something(ref v) => SomethingOrNothing::Something(v.clone()),
+            Nothing => Nothing,
+            Something(ref v) => Something(v.clone()),
         }
     }
 }
