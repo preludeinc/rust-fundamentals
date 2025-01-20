@@ -1,24 +1,28 @@
 #![allow(unused)]
-mod error;
-mod web;
 
 pub use self::error::{Error, Result};
 
 use std::net::SocketAddr;
 use axum::extract::{Path, Query};
-use axum::response::{Html,IntoResponse};
+use axum::response::{Html,IntoResponse,Response};
 use axum::routing::{get, get_service};
-use axum::{Router};
+use axum::{Router, middleware};
 
 use tokio::net::TcpListener;
 use tower_http::services::ServeDir;
+use tower_cookies::CookieManagerLayer;
 use serde::Deserialize;
+
+mod error;
+mod web;
 
 #[tokio::main]
 async fn main() {
     let routes_all = Router::new()
     .merge(routes_hello())
     .merge(web::routes_login::routes())
+    .layer(middleware::map_response(main_response_mapper))
+    .layer(CookieManagerLayer::new())
     .fallback_service(routes_static());
 
     // region:      --- Start Server
@@ -28,6 +32,13 @@ async fn main() {
     let tcp = TcpListener::bind(&addr).await.unwrap();
     axum::serve(tcp, routes_all).await.unwrap();
     // endregion:   --- Start Server
+}
+
+async fn main_response_mapper(res: Response) -> Response {
+    println!("->> {:<12} - main_response_mapper", "RES_MAPPER");
+
+    println!();
+    res
 }
 
 fn routes_static() -> Router {
