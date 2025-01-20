@@ -1,4 +1,4 @@
-Working through a series of Rusts tutorials, in preparation for making some projects using it. 
+Working through a series of Rust tutorials, in preparation for making some projects using it. 
 
 Tutorial links:
 - [rust-101](https://www.ralfj.de/projects/rust-101/main.html)
