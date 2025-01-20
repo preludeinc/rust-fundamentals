@@ -42,6 +42,8 @@ dependencies = [
  "anyhow",
  "axum 0.8.1",
  "httpc-test",
+ "serde",
+ "serde_json",
  "tokio",
 ]
 
