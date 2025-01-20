@@ -14,6 +14,7 @@ use tower_cookies::CookieManagerLayer;
 use serde::Deserialize;
 
 mod error;
+use model;
 mod web;
 
 #[tokio::main]
