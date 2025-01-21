@@ -1,6 +1,7 @@
 #![allow(unused)]
 
 pub use self::error::{Error, Result};
+use crate::model::{ModelController, Ticket, TicketForCreate};
 
 use std::net::SocketAddr;
 use axum::extract::{Path, Query};
@@ -14,14 +15,18 @@ use tower_cookies::CookieManagerLayer;
 use serde::Deserialize;
 
 mod error;
-use model;
+mod model;
 mod web;
 
 #[tokio::main]
-async fn main() {
+async fn main() -> Result<()>{
+    // Initialize ModelController
+    let mc = ModelController::new().await?;
+
     let routes_all = Router::new()
     .merge(routes_hello())
     .merge(web::routes_login::routes())
+    .nest("/api", web::routes_tickets::routes(mc.clone()))
     .layer(middleware::map_response(main_response_mapper))
     .layer(CookieManagerLayer::new())
     .fallback_service(routes_static());
@@ -33,6 +38,8 @@ async fn main() {
     let tcp = TcpListener::bind(&addr).await.unwrap();
     axum::serve(tcp, routes_all).await.unwrap();
     // endregion:   --- Start Server
+    
+    Ok(())
 }
 
 async fn main_response_mapper(res: Response) -> Response {

@@ -44,7 +44,7 @@ impl ModelController {
         Ok(ticket)
     }
 
-    pub async fn list_tickets(&self) -> Result<Vec> {
+    pub async fn list_tickets(&self) -> Result<Vec<Ticket>> {
         let store = self.tickets_store.lock().unwrap();
 
         let tickets = store.iter().filter_map(|t| t.clone()).collect();
@@ -60,6 +60,4 @@ impl ModelController {
         ticket.ok_or(Error::TicketDeleteFailNotFound { id })
     }
 }
-
-
 // endregion:   --- Model Controller
