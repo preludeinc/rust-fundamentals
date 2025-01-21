@@ -9,7 +9,6 @@ pub enum SomethingOrNothing<T> {
 
 pub use self::SomethingOrNothing::*;
 
-#[derive(Debug)]
 pub struct BigInt {
     pub data: Vec<u64>
 }
@@ -58,8 +57,8 @@ impl<T: Clone> Clone for SomethingOrNothing<T> {
     }
 }
 
-pub fn main() {
-    let v = vec![0,1 << 16];
-    let b1 = BigInt::from_vec((&v).clone());
-    println!("{:?}", b1);
-}
+// pub fn main() {
+//     let v = vec![0,1 << 16];
+//     let b1 = BigInt::from_vec((&v).clone());
+//     println!("{:?}", b1);
+// }

@@ -14,7 +14,7 @@ impl BigInt {
         } else if self.data.len() > other.data.len() {
             other
         } else {
-            if self.data > other.data {
+            if self.data < other.data {
                 self
             }
             else {
